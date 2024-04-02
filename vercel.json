@@ -5,7 +5,6 @@
     { "src": "/data", "dest": "/app.js" },
     { "src": "/", "dest": "/app.js" },
     { "src": "/getme", "dest": "/app.js" },
-    { "src": "/register", "dest": "/app.js" },
     { "src": "/changestatus", "dest": "/app.js" },
     { "src": "/hardwarestatus", "dest": "/app.js" },
     { "src": "/hardwareregister", "dest": "/app.js" },
