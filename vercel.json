@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [{ "src": "/app.js", "use": "@vercel/node" }],
+  "routes": [
+    { "src": "/data", "dest": "/app.js" },
+    { "src": "/", "dest": "/app.js" },
+    { "src": "/getme", "dest": "/app.js" },
+    { "src": "/register", "dest": "/app.js" },
+    { "src": "/changestatus", "dest": "/app.js" },
+    { "src": "/hardwarestatus", "dest": "/app.js" },
+    { "src": "/hardwareregister", "dest": "/app.js" },
+    { "src": "/deleteuser", "dest": "/app.js" },
+    { "src": "/userregister", "dest": "/app.js" }
+  ]
+}
