@@ -96,7 +96,7 @@ app.post('/deleteuser', async (req,res)=>{
 
 
 app.post('/hardwareregister', async (req, res) => {
-  const { uniqueId } = req.body; // Extract the uniqueId from the request body
+  const { uniqueId } = req.query; // Extract the uniqueId from the request body
 
   try {
     if (existingHardware) {
