@@ -96,14 +96,17 @@ app.post('/deleteuser', async (req,res)=>{
 
 
 app.post('/hardwareregister', async (req, res) => {
-  const { uniqueId } = req.body; // Extract the uniqueId from the request body
+const { uniqueId } = req.body; // Extract the uniqueId from the request body
 
   try {
+    // Check if the hardware with the uniqueId already exists
+    const existingHardware = await Hardware.findOne({ uniqueId });
+
     if (existingHardware) {
       return res.status(400).json({ message: 'Hardware already registered' });
     } else {
       // Create a new hardware document
-      const newHardware = new Hardware({ uniqueId ,status:true});
+      const newHardware = new Hardware({ uniqueId });
       await newHardware.save();
       return res.status(200).json({ message: 'Hardware registered successfully' });
     }
