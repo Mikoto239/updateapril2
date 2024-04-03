@@ -138,16 +138,16 @@ app.get('/hardwarestatus', async (req, res) => {
 
 
 app.post('/changestatus', async (req, res) => {
-  const { uniqueId } = req.body;
+  const { uniqueId, status } = req.body;
 
   try {
-    const hardware = await Hardware.findOne({ uniqueId });
+    const hardware = await Hardware.findOneAndUpdate({ uniqueId }, { status }, { new: true });
 
     if (!hardware) {
       return res.status(404).json({ message: 'Hardware not found' });
     }
 
-    const hardwareStatus = hardware.status; 
+    const hardwareStatus = hardware.status;
 
     return res.status(200).json({ status: hardwareStatus });
   } catch (error) {
@@ -155,6 +155,7 @@ app.post('/changestatus', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 
