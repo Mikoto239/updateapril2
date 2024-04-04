@@ -25,6 +25,26 @@ db.once('open', () => {
 app.use(bodyParser.json());
 
 
+app.post('/getlocation', async (req, res) => {
+  const { uniqueId } = req.body;
+
+  if (!uniqueId) {
+    return res.status(400).json({ message: 'uniqueId is required' });
+  }
+
+  try {
+    const results = await ArduinoData.find({ uniqueId });
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No information found' });
+    }
+
+    return res.status(200).json(results);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.post('/data', (req, res) => {
   const { vibrationDuration, latitude, longitude, uniqueId } = req.body; // Updated to include macAddress
