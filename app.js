@@ -25,8 +25,8 @@ db.once('open', () => {
 app.use(bodyParser.json());
 
 
-app.post('/getlocation', async (req, res) => {
-  const { uniqueId } = req.body;
+app.get('/getlocation', async (req, res) => {
+  const { uniqueId } = req.query;
 
   if (!uniqueId) {
     return res.status(400).json({ message: 'uniqueId is required' });
