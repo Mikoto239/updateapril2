@@ -39,13 +39,12 @@ app.get('/getlocation', async (req, res) => {
       return res.status(404).json({ message: 'No information found' });
     }
 
-   return res.status(200).json({ latitude: result.latitude });
+    return res.status(200).json(results);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 app.post('/data', (req, res) => {
   const { vibrationDuration, latitude, longitude, uniqueId } = req.body; // Updated to include macAddress
 
