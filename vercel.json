@@ -9,6 +9,7 @@
     { "src": "/hardwarestatus", "dest": "/app.js" },
     { "src": "/hardwareregister", "dest": "/app.js" },
     { "src": "/deleteuser", "dest": "/app.js" },
-    { "src": "/userregister", "dest": "/app.js" }
+    { "src": "/userregister", "dest": "/app.js" },
+    {"src":"/getlocation", "dest":"/app.js"}
   ]
 }
