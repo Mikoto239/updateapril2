@@ -136,7 +136,7 @@ const { uniqueId } = req.body; // Extract the uniqueId from the request body
 });
 
 
-app.get('/userdetails', async (req, res) => {
+app.get('/usernumber', async (req, res) => {
   const { uniqueId } = req.query;
   
   try {
