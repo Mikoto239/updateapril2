@@ -142,12 +142,11 @@ app.get('/usernumber', async (req, res) => {
   try {
     const user = await User.findOne({ uniqueId });
 
-    if (user) {
-      const userNumber = user.cellphonenumber;
+    if (!user) {
+     return res.status(404).json({ message: 'Cellphone Number not found!' });
+    } 
+     const userNumber = user.cellphonenumber;
       return res.status(200).json({ cellphonenumber: userNumber });
-    } else {
-      return res.status(404).json({ message: 'Cellphone Number not found!' });
-    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
