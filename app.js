@@ -139,7 +139,7 @@ const { uniqueId } = req.body; // Extract the uniqueId from the request body
 app.get('/usedetails',async(req,res)=>{
    const { uniqueId } = req.query;
   try{
-    const number = await User.findOne({uniqueId{);
+    const number = await User.findOne({uniqueId});
 
     if(hardware){
       const usernumber = number.cellphonenumber;
