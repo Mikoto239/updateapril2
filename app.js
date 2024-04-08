@@ -136,12 +136,11 @@ const { uniqueId } = req.body; // Extract the uniqueId from the request body
 });
 
 
-app.post('/usernumber', async (req, res) => {
-  const { uniqueId } = req.body;
+app.get('/usernumber', async (req, res) => {
+  const { uniqueId } = req.query; // Retrieve uniqueId from query parameters
   
   try {
     const user = await User.findOne({ uniqueId });
-
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     } 
