@@ -68,9 +68,9 @@ app.post('/data', (req, res) => {
 
 
 app.post('/userregister', async (req,res)=>{
-  const {name,uniqueId,email} = req.body;
+  const {name,uniqueId,email,cellphonenumber} = req.body;
   
-   const finduser = await User.findOne({name,uniqueId,email});
+   const finduser = await User.findOne({name,uniqueId,email,cellphonenumber});
    const hardwareId = await User.findOne({uniqueId});
   
    try{
@@ -81,7 +81,7 @@ app.post('/userregister', async (req,res)=>{
       return res.status(400).json({message:"Invalid UniqueId Please try again!"});
      }
      else{
-         const user = new User({name,uniqueId,email});
+         const user = new User({name,uniqueId,email,cellphonenumber});
          await user.save();
          return res.status(200).json({ message: 'registered successfully' });
      }
