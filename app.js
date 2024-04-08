@@ -136,26 +136,23 @@ const { uniqueId } = req.body; // Extract the uniqueId from the request body
 });
 
 
-app.get('/usedetails',async(req,res)=>{
-   const { uniqueId } = req.query;
-  try{
-    const number = await User.findOne({uniqueId});
+app.get('/userdetails', async (req, res) => {
+  const { uniqueId } = req.query;
+  
+  try {
+    const user = await User.findOne({ uniqueId });
 
-    if(hardware){
-      const usernumber = number.cellphonenumber;
-      return res.status(200).json({cellphonenumber:usernumber})
+    if (user) {
+      const userNumber = user.cellphonenumber;
+      return res.status(200).json({ cellphonenumber: userNumber });
+    } else {
+      return res.status(404).json({ message: 'Cellphone Number not found!' });
     }
-   else
-    {
-      return res.status(404).json({message:'Cellphone Number not found!');
-    } 
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
-    
-
-}
+});
 
 
 
