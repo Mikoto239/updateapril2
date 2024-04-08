@@ -136,8 +136,8 @@ const { uniqueId } = req.body; // Extract the uniqueId from the request body
 });
 
 
-app.get('/usernumber', async (req, res) => {
-  const { uniqueId } = req.query;
+app.post('/usernumber', async (req, res) => {
+  const { uniqueId } = req.body;
   
   try {
     const user = await User.findOne({ uniqueId });
