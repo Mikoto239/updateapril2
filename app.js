@@ -140,13 +140,14 @@ app.get('/usernumber', async (req, res) => {
   const { uniqueId } = req.query;
   
   try {
-    const user = await User.findOne({ uniqueId });
+    const user = await User.findOne({  uniqueId });
 
     if (!user) {
-     return res.status(404).json({ message: 'Cellphone Number not found!' });
+      return res.status(404).json({ message: 'Cellphone Number not found!' });
     } 
-     const userNumber = user.cellphonenumber;
-      return res.status(200).json({ cellphonenumber: userNumber });
+
+    const userNumber = user.cellphonenumber;
+    return res.status(200).json({ cellphonenumber: userNumber });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
