@@ -140,10 +140,10 @@ app.get('/usernumber', async (req, res) => {
   const { uniqueId } = req.query;
   
   try {
-    const user = await User.findOne({uniqueId:uniqueId});
+    const user = await User.findOne({uniqueId});
 
     if (!user) {
-      return res.status(404).json({ message: user.cellphonenumber });
+      return res.status(404).json({user });
     } 
 
     const userNumber = user.cellphonenumber;
