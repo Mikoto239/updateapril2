@@ -48,7 +48,7 @@ app.get('/getlocation', async (req, res) => {
 
 
 app.post('/data', (req, res) => {
-  const { vibrationDuration, latitude, longitude, uniqueId } = req.body; // Updated to include macAddress
+  const { vibrationDuration, latitude, longitude, uniqueId } = req.body;
 
   const arduinoData = new ArduinoData({
     vibrationDuration,
