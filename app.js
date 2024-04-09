@@ -96,18 +96,23 @@ app.post('/currentlocation', async (req, res) => {
 
 app.get('/getcurrentlocation', async (req, res) => {
   const { uniqueId } = req.query;
+
   try {
     const hardware = await Hardware.findOne({ uniqueId });
+
     if (!hardware) {
-      return res.status(400).json({ message: "Hardware not found!" });
+      return res.status(404).json({ message: 'Hardware not found' });
     }
-    const { currentlatitude, currentlongitude } = hardware;
-    return res.status(200).json({ currentlatitude, currentlongitude });
+
+    const pinStatus = hardware.pinlocation; 
+
+    return res.status(200).json({ status: pinStatus });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 app.post('/userregister', async (req,res)=>{
