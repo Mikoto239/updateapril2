@@ -13,6 +13,7 @@
     {"src":"/getlocation", "dest":"/app.js"},
     {"src":"/usernumber", "dest" :"/app.js"},
     {"src":"/currentlocation", "dest" :"/app.js"},
-    {"src":"/getcurrentlocation", "dest" :"/app.js"}
+    {"src":"/getcurrentlocation", "dest" :"/app.js"},
+    {"src":"/stopcurrentlocation", "dest" :"/app.js"}
   ]
 }
