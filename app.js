@@ -95,10 +95,12 @@ app.post('/currentlocation', async (req, res) => {
 app.post('/stopcurrentlocation', async (req, res) => {
   const { uniqueId, pinlocation } = req.body;
   try {
-    // Find the hardware device by unique ID and update its pinlocation
+    
     const hardware = await Hardware.findOneAndUpdate(
       { uniqueId: uniqueId },
       { pinlocation: pinlocation },
+      {currentlatitude:currentlatitude},
+      {currentlongitude:currentlongitude}
       { new: true }
     );
     
