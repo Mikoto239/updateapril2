@@ -11,6 +11,7 @@
     { "src": "/deleteuser", "dest": "/app.js" },
     { "src": "/userregister", "dest": "/app.js" },
     {"src":"/getlocation", "dest":"/app.js"},
-    {"src":"/usernumber", "dest" :"/app.js"}
+    {"src":"/usernumber", "dest" :"/app.js"},
+    {"src":"/currentlocation", "dest" :"/app.js"},
   ]
 }
