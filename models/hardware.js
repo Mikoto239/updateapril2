@@ -8,25 +8,12 @@ const hardwareSchema = new mongoose.Schema({
   uniqueId: {
     type: String,
     required: true,
-    unique: true
+    unique: true 
   },
-  status: { 
-    type: Boolean,
-    default: true 
-  },
+  state: { type: Boolean, default: true },
   registeredAt: {
     type: Date,
-    default: () => moment().add(8, 'hours').toDate() 
-  },
-  pinlocation: { 
-    type: Boolean, 
-    default: false 
-  }, 
-  currentlatitude: { 
-    type: String 
-  }, 
-  currentlongitude: { 
-    type: String 
+    default: () => moment().toDate() // Use moment() to get the current date and time
   }
 });
 
