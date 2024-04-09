@@ -91,25 +91,27 @@ app.post('/currentlocation', async (req, res) => {
   }
 });
 
-
 app.post('/stopcurrentlocation', async (req, res) => {
   const { uniqueId, pinlocation, currentlatitude, currentlongitude } = req.body;
   try {
     // Find the hardware device by uniqueId and update its fields
     const hardware = await Hardware.findOneAndUpdate(
       { uniqueId: uniqueId },
-      { pinlocation: pinlocation},
-      {currentlatitude: currentlatitude}, 
-      {currentlongitude: currentlongitude },
-      { new: true }
+      { 
+        pinlocation: pinlocation,
+        currentlatitude: currentlatitude,
+        currentlongitude: currentlongitude 
+      },
+      { new: true } // To return the updated document
     );
     
     if (!hardware) {
       return res.status(404).json({ message: "Hardware not found" });
     }
     
-    const { currentlatitude, currentlongitude } = hardware;
-    return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
+    // Extract latitude and longitude from updated hardware object
+    const { currentlatitude: latitude, currentlongitude: longitude } = hardware;
+    return res.status(200).json({ latitude, longitude });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
