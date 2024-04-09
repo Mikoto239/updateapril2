@@ -81,7 +81,7 @@ app.post('/currentlocation',async(req,res)=>{
     const hardware = await Hardware.findOneAndUpdate({ uniqueId }, { pinlocation }, { new: true });
     const latitude = hardware.currentlatitude;
     const longitude = hardware.currentlongitude;
-    return res.status(200).json({currentlatitude:latitude, currentlongitude:longitude});
+    return res.status(200).json({latitude});
   
   } catch(error){
     return res.status(500).json({ message: 'Internal server error' });
