@@ -83,8 +83,8 @@ app.post('/currentlocation', async (req, res) => {
     if (!hardware) {
       return res.status(400).json({ message: "Hardware not Found!" });
     }
-    const { currentlatitude, currentlongitude } = hardware;
-    return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
+
+    return res.status(200).json({message:"Pin Successfully"});
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
