@@ -10,7 +10,7 @@ const arduinoDataSchema = new mongoose.Schema({
   uniqueId: String,
   vibrateAt: {
     type: Date,
-    default: () => timezone().toDate()
+default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   }
 });
 
