@@ -13,8 +13,11 @@ const hardwareSchema = new mongoose.Schema({
   status: { type: Boolean, default: true },
   registeredAt: {
     type: Date,
-    default: () => moment().toDate() // Use moment() to get the current date and time
-  }
+    default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
+  },
+  pinlocation: { type: Boolean, default: false }, // Corrected typo in type
+  currentlatitude: { type: String }, // Corrected typo in field name
+  currentlongitude: { type: String } // Corrected typo in field name
 });
 
 const Hardware = mongoose.model('Hardware', hardwareSchema);
