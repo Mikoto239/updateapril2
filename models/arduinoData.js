@@ -5,7 +5,7 @@ const moment = require('moment-timezone');
 moment.tz.setDefault('Asia/Manila');
 
 const arduinoDataSchema = new mongoose.Schema({
-  vibrationDuration: Number,
+  vibrationDuration:String,
   latitude: Number,
   longitude: Number,
   uniqueId: String,
