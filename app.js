@@ -89,6 +89,26 @@ app.post('/currentlocation',async(req,res)=>{
 });
 
 
+
+app.get('/getcurrentlocation',async(req,res)=>{
+  const {name,uniqueId,email,cellphone,pinlocation} = req.query;
+  const finduser = await User.findOne({name,email,uniqueId,cellphone});
+  try{
+     if(!finduser){
+       return res.status(400).json({message:"User not Found!"});
+     }
+    hardwareid = finduser.uniqueId;
+    const hardware = await Hardware.findOneAndUpdate({ uniqueId }, { pinlocation }, { new: true });
+    const latitude = hardware.currentlatitude;
+    const longitude = hardware.currentlongitude;
+    return res.status(200).json({currentlatitude:latitude, currentlongitude:longitude});
+  
+  } catch(error){
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 app.post('/userregister', async (req,res)=>{
   const {name,uniqueId,email,cellphonenumber} = req.body;
   
