@@ -8,16 +8,26 @@ const hardwareSchema = new mongoose.Schema({
   uniqueId: {
     type: String,
     required: true,
-    unique: true 
+    unique: true
   },
-  status: { type: Boolean, default: true },
+  status: { 
+    type: Boolean,
+    default: true 
+  },
   registeredAt: {
     type: Date,
-    default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
+    default: () => moment().add(8, 'hours').toDate() 
   },
-  pinlocation: { type: Boolean, default: false }, // Corrected typo in type
-  currentlatitude: { type: String }, // Corrected typo in field name
-  currentlongitude: { type: String } // Corrected typo in field name
+  pinlocation: { 
+    type: Boolean, 
+    default: false 
+  }, 
+  currentlatitude: { 
+    type: String 
+  }, 
+  currentlongitude: { 
+    type: String 
+  }
 });
 
 const Hardware = mongoose.model('Hardware', hardwareSchema);
