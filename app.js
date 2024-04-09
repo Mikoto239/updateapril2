@@ -93,12 +93,19 @@ app.post('/currentlocation', async (req, res) => {
 
 
 app.post('/stopcurrentlocation', async (req, res) => {
-  const {uniqueId, pinlocation } = req.body;
-const hardware = await Hardware.findOneAndUpdate({ uniqueId: hardwareid }, { pinlocation }, { new: true });
+  const { uniqueId, pinlocation } = req.body;
   try {
+    // Find the hardware device by unique ID and update its pinlocation
+    const hardware = await Hardware.findOneAndUpdate(
+      { uniqueId: uniqueId },
+      { pinlocation: pinlocation },
+      { new: true }
+    );
+    
     if (!hardware) {
-      return res.status(400).json({ message: "Hardware not Found!" });
+      return res.status(404).json({ message: "Hardware not found" });
     }
+    
     const { currentlatitude, currentlongitude } = hardware;
     return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
   } catch (error) {
