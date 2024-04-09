@@ -110,8 +110,8 @@ app.post('/stopcurrentlocation', async (req, res) => {
     }
     
     // Extract latitude and longitude from updated hardware object
-    const { currentlatitude: latitude, currentlongitude: longitude } = hardware;
-    return res.status(200).json({ latitude, longitude });
+    const { currentlatitude, currentlongitude } = hardware;
+    return res.status(200).json({ latitude:currentlatitude, longitude:currentlongitude });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
