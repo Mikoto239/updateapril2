@@ -91,14 +91,12 @@ app.post('/currentlocation',async(req,res)=>{
 
 
 app.get('/getcurrentlocation',async(req,res)=>{
-  const {name,uniqueId,email,cellphone,pinlocation} = req.query;
-  const finduser = await User.findOne({name,email,uniqueId,cellphone});
+  const {uniqueId} = req.query;
+ const hardware = await Hardware.findOneAndUpdate({ uniqueId }, { pinlocation }, { new: true });
   try{
-     if(!finduser){
-       return res.status(400).json({message:"User not Found!"});
+     if(!hardware){
+       return res.status(400).json({message:"Hardware not Found!"});
      }
-    hardwareid = finduser.uniqueId;
-    const hardware = await Hardware.findOneAndUpdate({ uniqueId }, { pinlocation }, { new: true });
     const latitude = hardware.currentlatitude;
     const longitude = hardware.currentlongitude;
     return res.status(200).json({currentlatitude:latitude, currentlongitude:longitude});
