@@ -3,7 +3,6 @@ const moment = require('moment-timezone');
 
 // Set the default timezone to Asia/Manila
 moment.tz.setDefault('Asia/Manila');
-
 const hardwareSchema = new mongoose.Schema({
   uniqueId: {
     type: String,
@@ -15,9 +14,9 @@ const hardwareSchema = new mongoose.Schema({
     type: Date,
     default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   },
-  pinlocation: { type: Boolean, default: false }, // Corrected typo in type
-  currentlatitude: { type: String }, // Corrected typo in field name
-  currentlongitude: { type: String } // Corrected typo in field name
+  pinlocation: { type: Boolean, default: false },
+  currentlatitude: { type: Number }, // Changed to Number type
+  currentlongitude: { type: Number } // Changed to Number type
 });
 
 const Hardware = mongoose.model('Hardware', hardwareSchema);
