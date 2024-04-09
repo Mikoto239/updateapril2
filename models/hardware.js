@@ -12,7 +12,7 @@ const hardwareSchema = new mongoose.Schema({
   status: { type: Boolean, default: true },
   registeredAt: {
     type: Date,
-    default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
+        default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   },
   pinlocation: { type: Boolean, default: false },
   currentlatitude: { type: Number }, // Changed to Number type
