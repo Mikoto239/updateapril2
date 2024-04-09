@@ -45,6 +45,8 @@ app.get('/getlocation', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
 app.post('/data', (req, res) => {
   const { vibrationDuration, latitude, longitude, uniqueId } = req.body; // Updated to include macAddress
 
@@ -64,6 +66,26 @@ app.post('/data', (req, res) => {
       console.error('Error saving data to MongoDB:', error);
       res.status(500).send('Failed to save data!');
     });
+});
+
+
+
+app.post('/currentlocation',async(req,res)=>{
+  const {name,uniqueId,email,cellphone,pinlocation} = req.body;
+  const finduser = await User.findOne({name,email,uniqueId,cellphone});
+  try{
+     if(!finduser){
+       return res.status(400).json({message:"User not Found!"});
+     }
+    hardwareid = finduser.uniqueId;
+    const hardware = await Hardware.findOneAndUpdate({ uniqueId }, { pinlocation }, { new: true });
+    const latitude = hardware.currentlatitude;
+    const longitude = hardware.currentlongitude;
+    return res.status(200).json({currentlatitude:latitude, currentlongitude:longitude});
+  
+  } catch(error){
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 
