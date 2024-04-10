@@ -267,16 +267,21 @@ app.post('/changestatus', async (req, res) => {
 
 
 
-app.get('/getme', async (req, res) => {
-  ArduinoData.find()
-    .then(data => {
-      console.log('Retrieved data from MongoDB:', data);
-      res.status(200).json(data);
-    })
-    .catch(error => {
-      console.error('Error fetching data from MongoDB:', error);
-      res.status(500).send('Failed to fetch data!');
-    });
+app.get('/gethistory', async (req, res) => {
+  const { uniqueId,name,email} = req.query;
+
+  try {
+    const history = await ArduinoData.find({ uniqueId,name,email });
+
+    if (!hardware) {
+      return res.status(404).json({ message: 'Hardware not found' });
+    }
+
+    return res.status(200).json({ history: history });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 
