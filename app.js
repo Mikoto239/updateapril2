@@ -126,9 +126,9 @@ app.post('/checkuserregister', async (req, res) => {
             return res.status(400).json({ message: 'User not registered yet' });
         }
 
-        const { uniqueId, name: userName, email: userEmail, cellphone } = user;
+        const { uniqueId, name, email, cellphonenumber } = user;
 
-        return res.status(200).json({ uniqueId, name: userName, email: userEmail, cellphone });
+        return res.status(200).json({ uniqueId, name, email, cellphonenumber });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
     }
