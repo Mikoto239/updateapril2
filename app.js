@@ -115,6 +115,23 @@ app.post('/stopcurrentlocation', async (req, res) => {
 });
 
 
+app.get('/checkuserregister', async (req, res) => {
+    const { name, email } = req.query;
+
+    try {
+        const user = await User.findOne({ name, email });
+
+        if (!user) {
+            return res.status(400).json({ message: 'User not registered yet' });
+        }
+
+        const { uniqueId, name: userName, email: userEmail, cellphone } = user;
+
+        return res.status(200).json({ uniqueId, name: userName, email: userEmail, cellphone });
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error', error: error.message });
+    }
+});
 
 app.get('/getcurrentlocation', async (req, res) => {
   const { uniqueId } = req.query;
