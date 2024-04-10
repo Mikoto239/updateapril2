@@ -117,22 +117,22 @@ app.post('/stopcurrentlocation', async (req, res) => {
 });
 
 app.post('/checkuserregister', async (req, res) => {
-    const { name, email } = req.body;
+    const { userName, email } = req.body; // Renamed 'name' to 'userName'
 
     try {
-        // Find the user based on name and email
-        const user = await User.findOne({ name, email });
+        // Find the user based on userName and email
+        const user = await User.findOne({ name: userName, email });
 
         if (!user) {
-       
+            // If user not found, return 404 status with a message
             return res.status(404).json({ message: 'User not registered yet' });
         }
 
         // If user found, extract relevant information
-        const { uniqueId, name, email, cellphonenumber } = user;
+        const { uniqueId, name, email: userEmail, cellphonenumber } = user; // Renamed 'name' to 'userName'
 
         // Return user information
-        return res.status(200).json({ uniqueId, name, email, cellphonenumber });
+        return res.status(200).json({ uniqueId, name, email: userEmail, cellphonenumber });
     } catch (error) {
         // If an error occurs, return 500 status with an error message
         return res.status(500).json({ message: 'Internal server error', error: error.message });
