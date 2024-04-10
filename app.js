@@ -160,7 +160,7 @@ app.post('/userregister', async (req,res)=>{
   const {name,uniqueId,email,cellphonenumber} = req.body;
   
    const finduser = await User.findOne({name,uniqueId,email,cellphonenumber});
-   const hardwareId = await User.findOne({uniqueId});
+   const hardwareId = await Hardware.findOne({uniqueId});
   
    try{
     if(finduser){
