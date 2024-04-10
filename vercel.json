@@ -15,6 +15,6 @@
     {"src":"/currentlocation", "dest" :"/app.js"},
     {"src":"/getcurrentlocation", "dest" :"/app.js"},
     {"src":"/stopcurrentlocation", "dest" :"/app.js"},
-     {"src":"/gethistory", "dest" :"/app.js"},
+     {"src":"/gethistory", "dest" :"/app.js"}
   ]
 }
