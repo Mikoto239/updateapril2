@@ -266,8 +266,8 @@ app.post('/changestatus', async (req, res) => {
 
 
 
-app.get('/gethistory', async (req, res) => {
-  const { uniqueId } = req.query;
+app.post('/gethistory', async (req, res) => {
+  const { uniqueId } = req.body;
 
   try {
     const results = await ArduinoData.find({ uniqueId });
