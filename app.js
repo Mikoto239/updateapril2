@@ -115,8 +115,8 @@ app.post('/stopcurrentlocation', async (req, res) => {
 });
 
 
-app.get('/checkuserregister', async (req, res) => {
-    const { name, email } = req.query;
+app.post('/checkuserregister', async (req, res) => {
+    const { name, email } = req.body;
 
     try {
         const user = await User.findOne({ name, email });
