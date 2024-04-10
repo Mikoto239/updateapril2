@@ -266,15 +266,14 @@ app.post('/changestatus', async (req, res) => {
 
 
 
-
 app.get('/gethistory', async (req, res) => {
-  const { uniqueId} = req.query;
+  const { uniqueId } = req.query;
 
   try {
     const history = await ArduinoData.find({ uniqueId });
 
-    if (!hardware) {
-      return res.status(404).json({ message: 'Hardware not found' });
+    if (!history || history.length === 0) {
+      return res.status(404).json({ message: 'History not found' });
     }
 
     return res.status(200).json({ history: history });
