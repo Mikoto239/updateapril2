@@ -90,6 +90,8 @@ app.post('/currentlocation', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
 app.post('/stopcurrentlocation', async (req, res) => {
   const { uniqueId, pinlocation, currentlatitude, currentlongitude } = req.body;
   console.log('Request body:', req.body); // Debug: log the incoming request body
@@ -164,6 +166,9 @@ app.post('/userregister', async (req,res)=>{
     if(finduser){
       return res.status(400).json({message:"User and the Hardware is already registered!"});
      }
+      else if(!hardware){
+           return res.status(400).json({message:"Id not Found!"});
+      }
      else if(!finduser && hardwareId){
       return res.status(400).json({message:"Invalid UniqueId Please try again!"});
      }
