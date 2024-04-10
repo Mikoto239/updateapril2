@@ -270,18 +270,19 @@ app.get('/gethistory', async (req, res) => {
   const { uniqueId } = req.query;
 
   try {
-    const history = await ArduinoData.find({ uniqueId });
+    const results = await ArduinoData.find({ uniqueId });
 
-    if (!history || history.length === 0) {
-      return res.status(404).json({ message: 'History not found' });
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No information found' });
     }
 
-    return res.status(200).json({ history: history });
+    return res.status(200).json(results);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 app.use('/', homeRouter);
