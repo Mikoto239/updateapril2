@@ -155,34 +155,34 @@ app.get('/getcurrentlocation', async (req, res) => {
 });
 
 
+app.post('/userregister', async (req, res) => {
+    const { name, uniqueId, email, cellphonenumber } = req.body;
 
-app.post('/userregister', async (req,res)=>{
-  const {name,uniqueId,email,cellphonenumber} = req.body;
-  
-   const finduser = await User.findOne({name,uniqueId,email,cellphonenumber});
-   const hardwareId = await Hardware.findOne({uniqueId});
-  
-   try{
-    if(finduser){
-      return res.status(400).json({message:"User and the Hardware is already registered!"});
-     }
-      else if(!hardware){
-           return res.status(400).json({message:"Id not Found!"});
-      }
-     else if(!finduser && hardwareId){
-      return res.status(400).json({message:"Invalid UniqueId Please try again!"});
-     }
-     else{
-         const user = new User({name,uniqueId,email,cellphonenumber});
-         await user.save();
-         return res.status(200).json({ message: 'registered successfully' });
-     }
-   }
-   catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-  });
+    try {
+        // Check if user already exists
+        const findUser = await User.findOne({ uniqueId });
+
+        if (findUser) {
+            return res.status(400).json({ message: "User is already registered!" });
+        }
+
+        // Check if hardware exists
+        const hardwareId = await Hardware.findOne({ uniqueId });
+
+        if (!hardwareId) {
+            return res.status(400).json({ message: "Hardware ID not found!" });
+        }
+
+        // Create new user
+        const newUser = new User({ name, uniqueId, email, cellphonenumber });
+        await newUser.save();
+
+        return res.status(200).json({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 
 app.post('/deleteuser', async (req,res)=>{
