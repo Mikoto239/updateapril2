@@ -11,7 +11,7 @@ const arduinoDataSchema = new mongoose.Schema({
   uniqueId: String,
   vibrateAt: {
     type: Date,
-    default: () => moment().toDate() // Use moment() to get current time
+ default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   }
 });
 
