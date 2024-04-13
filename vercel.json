@@ -17,6 +17,7 @@
     {"src":"/stopcurrentlocation", "dest" :"/app.js"},
      {"src":"/gethistory", "dest" :"/app.js"},
     {"src":"/checkuserregister","dest":"/app.js"},
-    {"src":"/deletecurrentlocation","dest" :"/app.js"}
+    {"src":"/deletecurrentlocation","dest" :"/app.js"},
+    {"src":"/checkpinlocation", "dest" :"/app.js"}
   ]
 }
