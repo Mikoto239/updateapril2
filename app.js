@@ -47,6 +47,9 @@ app.get('/getlocation', async (req, res) => {
 });
 
 
+
+
+
 app.post('/data', (req, res) => {
   const { vibrationDuration, latitude, longitude, uniqueId } = req.body;
 
@@ -68,6 +71,35 @@ app.post('/data', (req, res) => {
     });
 });
 
+
+app.post('/deletecurrentlocation', async (req, res) => {
+  const { uniqueId } = req.body;
+
+  try {
+    // Find the hardware document with the given uniqueId
+    const hardware = await Hardware.findOne({ uniqueId });
+
+    // If hardware document exists
+    if (hardware) {
+      // Update the hardware document to remove the latitude and longitude fields
+      hardware.currentlatitude = undefined;
+      hardware.currentlongitude = undefined;
+      
+      // Save the updated hardware document
+      await hardware.save();
+      
+      // Send response
+      res.status(200).json({ message: 'Latitude and longitude deleted successfully' });
+    } else {
+      // If hardware document with the given uniqueId is not found
+      res.status(404).json({ message: 'Hardware not found' });
+    }
+  } catch (error) {
+    // If an error occurs
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 app.post('/currentlocation', async (req, res) => {
