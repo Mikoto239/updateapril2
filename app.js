@@ -103,8 +103,8 @@ app.post('/deletecurrentlocation', async (req, res) => {
 
 
 app.post('/currentlocation', async (req, res) => {
-  const { name, uniqueId, email, cellphone, pinlocation } = req.body;
-  const finduser = await User.findOne({ name, email, uniqueId, cellphone });
+  const { name, uniqueId, email, cellphonenumber, pinlocation } = req.body;
+  const finduser = await User.findOne({ name, email, uniqueId, cellphonenumber });
   try {
     if (!finduser) {
       return res.status(400).json({ message: "User not Found!" });
