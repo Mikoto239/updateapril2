@@ -27,8 +27,8 @@ app.use(bodyParser.json());
 
 
 
-app.get('/checkpinlocation', async (req, res) => {
-    const { uniqueId } = req.query;
+app.post('/checkpinlocation', async (req, res) => {
+    const { uniqueId } = req.body;
     try {
         const pinlocation = await Hardware.findOne({ uniqueId });
 
