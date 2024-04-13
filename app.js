@@ -82,8 +82,8 @@ app.post('/deletecurrentlocation', async (req, res) => {
     // If hardware document exists
     if (hardware) {
       // Update the hardware document to remove the latitude and longitude fields
-      hardware.currentlatitude = undefined;
-      hardware.currentlongitude = undefined;
+      hardware.currentlatitude = 0;
+      hardware.currentlongitude = 0;
       
       // Save the updated hardware document
       await hardware.save();
