@@ -25,6 +25,26 @@ db.once('open', () => {
 app.use(bodyParser.json());
 
 
+
+
+
+app.get('/checkpinlocation',async (req,res)=>{
+    const {uniqueId} = req.query;
+    try{
+       const pinlocation = await Hardware.findOne({uniqueid});
+
+       if(!pinlocation){
+        res.status(400).json({message:"invalid UniqueId"});
+       }
+
+      const latitude = pinlocation.currentlatitude;
+      const longitude = pinlocation.currentlongitude;
+      res.status(200).json({latitude:latitude,longitude:longitude});
+    }catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 app.get('/getlocation', async (req, res) => {
   const { uniqueId } = req.query;
 
