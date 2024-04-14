@@ -351,7 +351,7 @@ app.post('/gethistory', async (req, res) => {
   try {
     const results = await ArduinoData.find({ uniqueId });
 
-    if (results) {
+    if (!results) {
       return res.status(404).json({ message: 'No information found' });
     }
 
