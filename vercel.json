@@ -18,6 +18,8 @@
      {"src":"/gethistory", "dest" :"/app.js"},
     {"src":"/checkuserregister","dest":"/app.js"},
     {"src":"/deletecurrentlocation","dest" :"/app.js"},
-    {"src":"/checkpinlocation", "dest" :"/app.js"}
+    {"src":"/checkpinlocation", "dest" :"/app.js"},
+    {"src":"/sendtheftdetails","dest":"/app.js"},
+    {"src":"/removetheftdetails","dest":"/app.js"}
   ]
 }
