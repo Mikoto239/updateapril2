@@ -216,8 +216,10 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
+    // Create new theft detail
     const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
     await theft.save();
+    
     return res.status(200).json({ message: 'Theft details saved successfully' });
   } catch (error) {
     console.error(error);
