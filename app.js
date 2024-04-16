@@ -228,7 +228,7 @@ app.post('/sendtheftdetails', async (req, res) => {
 });
 
 
-app.delete('/removetheftdetails', async (req, res) => {
+app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
 
   try {
