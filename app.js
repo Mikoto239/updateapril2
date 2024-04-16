@@ -5,6 +5,7 @@ const homeRouter = require('./home.js');
 const Hardware = require('./models/hardware.js');
 const ArduinoData = require('./models/arduinoData.js');
 const User = require('./models/user.js');
+const TheftDetails = require('./models/theftdetails');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
@@ -211,6 +212,23 @@ app.get('/getcurrentlocation', async (req, res) => {
   }
 });
 
+
+app.delete('/removetheftdetails', async (req, res) => {
+  const { uniqueId } = req.body;
+
+  try {
+    const count = await TheftDetails.countDocuments({ uniqueId });
+    if (count > 5) {
+      const oldestTheftDetail = await TheftDetails.findOneAndDelete({ uniqueId }, { sort: { createdAt: 1 } });
+      return res.status(200).json({ message: "Success" });
+    } else {
+      return res.status(400).json({ message: "No need to delete. Count is less than or equal to 5." });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.post('/userregister', async (req, res) => {
     const { name, uniqueId, email, cellphonenumber } = req.body;
