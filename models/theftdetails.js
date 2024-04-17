@@ -8,9 +8,10 @@ const theftdetailsschema = new mongoose.Schema({
     type: Date,
     default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   },
-  currentlatitude: { type: String },
-  currentlongitude: { type: String },
-   uniqueId: { type: String }
+  currentlatitude: Number,
+  currentlongitude: Number,
+  uniqueId: String,
+ 
 });
 
 const TheftDetails = mongoose.model('Theftdetails', theftdetailsschema);
