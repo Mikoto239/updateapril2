@@ -216,19 +216,11 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
-    // Check if a theft detail with the same uniqueId, currentlatitude, and currentlongitude already exists
-    const existingTheft = await TheftDetails.findOne({ uniqueId, currentlatitude, currentlongitude });
-
-    if (existingTheft) {
-       const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
-      await theft.save();
-      return res.status(200).json({ message: 'Theft details already exist for this uniqueId and coordinates' });
-    } else {
-      // If no theft detail with the same uniqueId, currentlatitude, and currentlongitude exists, create a new one
+  
       const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
       await theft.save();
       return res.status(200).json({ message: 'Theft details saved successfully' });
-    }
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
