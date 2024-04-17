@@ -216,37 +216,24 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
-    let theft;
-
+    // Check if a theft detail with the same uniqueId already exists
     const existingTheft = await TheftDetails.findOne({ uniqueId,currentlatitude,currentlongitude });
 
     if (existingTheft) {
-      // Update the existing document
-      existingTheft.currentlatitude = currentlatitude;
-      existingTheft.currentlongitude = currentlongitude;
-
-      // Set happenedAt to the current time plus 8 hours
-      existingTheft.happenedAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
-
-      // Save the updated document
-      await existingTheft.save();
-      theft = existingTheft;
+      // If a theft detail with the same uniqueId exists, send a JSON response indicating that the data already exists
+      return res.status(200).json({ message: 'Theft details already exist for this uniqueId' });
     } else {
-      
-      theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
-
-  
-
-      // Save the new document
+      // If no theft detail with the same uniqueId exists, create a new one
+      const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
       await theft.save();
+      return res.status(200).json({ message: 'Theft details saved successfully' });
     }
-
-    return res.status(200).json({ message: 'Theft details saved successfully', theft });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 
