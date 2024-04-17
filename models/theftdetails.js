@@ -9,7 +9,7 @@ const theftdetailsschema = new mongoose.Schema({
     type: Date,
     default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   },
-    uniqueId: { type: String }, // No unique constraint specified
+    uniqueId: type: String , // No unique constraint specified
   currentlatitude: { type: String },
   currentlongitude: { type: String }
 });
