@@ -212,7 +212,7 @@ app.get('/getcurrentlocation', async (req, res) => {
   }
 });
 
-app.post('/addtheftdetails', async (req, res) => {
+app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
