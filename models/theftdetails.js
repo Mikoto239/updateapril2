@@ -3,9 +3,7 @@ const moment = require('moment-timezone');
 
 moment.tz.setDefault('Asia/Manila');
 const theftdetailsschema = new mongoose.Schema({
-  uniqueId: {
-    type: String,
-    required: true
+  uniqueId: { type: String
   },
   status: { type:Number},
  happenedAt: {
