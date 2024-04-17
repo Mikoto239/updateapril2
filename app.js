@@ -231,7 +231,7 @@ app.post('/sendtheftdetails', async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
-  }
+  });
 
 app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
