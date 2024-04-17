@@ -216,7 +216,7 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
-    // Create new theft detail
+    // Create new theft detail without enforcing unique constraints
     const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
     await theft.save();
     
@@ -226,7 +226,6 @@ app.post('/sendtheftdetails', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 
 app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
