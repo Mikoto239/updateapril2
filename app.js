@@ -225,8 +225,8 @@ app.post('/sendtheftdetails', async (req, res) => {
       existingTheft.currentlatitude = currentlatitude;
       existingTheft.currentlongitude = currentlongitude;
 
-      // Set happenedAt to the current time
-      existingTheft.happenedAt = new Date();
+      // Set happenedAt to the current time plus 8 hours
+      existingTheft.happenedAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
       // Save the updated document
       await existingTheft.save();
@@ -235,8 +235,8 @@ app.post('/sendtheftdetails', async (req, res) => {
       // Create a new theft detail
       theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
 
-      // Set happenedAt to the current time
-      theft.happenedAt = new Date();
+      // Set happenedAt to the current time plus 8 hours
+      theft.happenedAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
       // Save the new document
       await theft.save();
@@ -248,6 +248,7 @@ app.post('/sendtheftdetails', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 app.post('/removetheftdetails', async (req, res) => {
