@@ -220,7 +220,8 @@ app.post('/sendtheftdetails', async (req, res) => {
     const existingTheft = await TheftDetails.findOne({ uniqueId, currentlatitude, currentlongitude });
 
     if (existingTheft) {
-      // If a theft detail with the same uniqueId, currentlatitude, and currentlongitude exists, send a JSON response indicating that the data already exists
+       const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
+      await theft.save();
       return res.status(200).json({ message: 'Theft details already exist for this uniqueId and coordinates' });
     } else {
       // If no theft detail with the same uniqueId, currentlatitude, and currentlongitude exists, create a new one
