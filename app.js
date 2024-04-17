@@ -218,7 +218,7 @@ app.post('/sendtheftdetails', async (req, res) => {
   try {
     let theft;
 
-    const existingTheft = await TheftDetails.findOne({ uniqueId });
+    const existingTheft = await TheftDetails.findOne({ uniqueId,currentlatitude,currentlongitude });
 
     if (existingTheft) {
       // Update the existing document
@@ -232,11 +232,10 @@ app.post('/sendtheftdetails', async (req, res) => {
       await existingTheft.save();
       theft = existingTheft;
     } else {
-      // Create a new theft detail
+      
       theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
 
-      // Set happenedAt to the current time plus 8 hours
-      theft.happenedAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
+  
 
       // Save the new document
       await theft.save();
