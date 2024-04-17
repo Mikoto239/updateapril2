@@ -216,37 +216,39 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
+    let theft;
+
     const existingTheft = await TheftDetails.findOne({ uniqueId });
 
     if (existingTheft) {
-      // Generate a new attribute (e.g., 'generatedAttribute')
-      const generatedAttribute = generateUniqueAttribute();
+      // Update the existing document
+      existingTheft.currentlatitude = currentlatitude;
+      existingTheft.currentlongitude = currentlongitude;
 
-      // Add the new attribute to the existing document
-      existingTheft.generatedAttribute = generatedAttribute;
+      // Set happenedAt to the current time
+      existingTheft.happenedAt = new Date();
 
-      // Save the existing document with the new attribute
+      // Save the updated document
       await existingTheft.save();
-
-      return res.status(200).json({ message: 'New attribute added to existing theft details' });
+      theft = existingTheft;
     } else {
       // Create a new theft detail
-      const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
+      theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
 
-      // Generate a new attribute (e.g., 'generatedAttribute')
-      const generatedAttribute = generateUniqueAttribute();
+      // Set happenedAt to the current time
+      theft.happenedAt = new Date();
 
-      // Add the new attribute to the new document
-      theft.generatedAttribute = generatedAttribute;
-
-      // Save the new document with the new attribute
+      // Save the new document
       await theft.save();
-
-      return res.status(200).json({ message: 'New theft details saved successfully' });
     }
+
+    return res.status(200).json({ message: 'Theft details saved successfully', theft });
   } catch (error) {
     console.error(error);
-    return
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
