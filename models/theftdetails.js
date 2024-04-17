@@ -5,8 +5,7 @@ moment.tz.setDefault('Asia/Manila');
 const theftdetailsschema = new mongoose.Schema({
   uniqueId: {
     type: String,
-    required: true,
-    unique: true 
+    required: true
   },
   status: { type:Number},
  happenedAt: {
