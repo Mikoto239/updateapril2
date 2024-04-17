@@ -212,23 +212,26 @@ app.get('/getcurrentlocation', async (req, res) => {
   }
 });
 
-app.post('/sendtheftdetails', async (req, res) => {
-  const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
-  try {
-  
-      const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
-      await theft.save();
-      return res.status(200).json({ message: 'Theft details saved successfully' });
-    
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
+app.post('/sendtheftdetails', (req, res) => {
+  const { currentlatitude, currentlongitude, uniqueId } = req.body;
+
+  const theft = new TheftDetails({
+    currentlatitude,
+    currentlongitude,
+    uniqueId
+  });
+
+ theft.save()
+    .then(() => {
+      console.log('Data saved to MongoDB:', theft);
+      res.status(200).send('Data saved successfully!');
+    })
+    .catch(error => {
+      console.error('Error saving data to MongoDB:', error);
+      res.status(500).send('Failed to save data!');
+    });
 });
-
-
-
 
 app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
