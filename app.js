@@ -216,11 +216,20 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
-    // Create new theft detail without enforcing unique constraints
-    const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
-    await theft.save();
-    
-    return res.status(200).json({ message: 'Theft details saved successfully' });
+ 
+    const existingTheft = await TheftDetails.findOne({ uniqueId });
+
+    if (existingTheft) {
+      existingTheft.currentlatitude = currentlatitude;
+      existingTheft.currentlongitude = currentlongitude;
+      await existingTheft.save();
+      return res.status(200).json({ message: 'Theft details updated successfully' });
+    } else {
+      // If no theft detail with the same uniqueId exists, create a new one
+      const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
+      await theft.save();
+      return res.status(200).json({ message: 'Theft details saved successfully' });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
