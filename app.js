@@ -212,6 +212,7 @@ app.get('/getcurrentlocation', async (req, res) => {
   }
 });
 
+
 app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
@@ -232,6 +233,8 @@ app.post('/sendtheftdetails', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
 app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
 
