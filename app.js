@@ -216,25 +216,37 @@ app.post('/sendtheftdetails', async (req, res) => {
   const { uniqueId, currentlatitude, currentlongitude } = req.body;
 
   try {
- 
     const existingTheft = await TheftDetails.findOne({ uniqueId });
 
     if (existingTheft) {
-      existingTheft.currentlatitude = currentlatitude;
-      existingTheft.currentlongitude = currentlongitude;
+      // Generate a new attribute (e.g., 'generatedAttribute')
+      const generatedAttribute = generateUniqueAttribute();
+
+      // Add the new attribute to the existing document
+      existingTheft.generatedAttribute = generatedAttribute;
+
+      // Save the existing document with the new attribute
       await existingTheft.save();
-      return res.status(200).json({ message: 'Theft details updated successfully' });
+
+      return res.status(200).json({ message: 'New attribute added to existing theft details' });
     } else {
-      // If no theft detail with the same uniqueId exists, create a new one
+      // Create a new theft detail
       const theft = new TheftDetails({ uniqueId, currentlatitude, currentlongitude });
+
+      // Generate a new attribute (e.g., 'generatedAttribute')
+      const generatedAttribute = generateUniqueAttribute();
+
+      // Add the new attribute to the new document
+      theft.generatedAttribute = generatedAttribute;
+
+      // Save the new document with the new attribute
       await theft.save();
-      return res.status(200).json({ message: 'Theft details saved successfully' });
+
+      return res.status(200).json({ message: 'New theft details saved successfully' });
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-});
+    return
 
 app.post('/removetheftdetails', async (req, res) => {
   const { uniqueId } = req.body;
