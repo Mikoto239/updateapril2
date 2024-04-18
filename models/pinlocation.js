@@ -4,8 +4,8 @@ const moment = require('moment-timezone'); // Import the moment module
 moment.tz.setDefault('Asia/Manila');
 
 const pinlocationSchema = new mongoose.Schema({
-  latitude: Number,
-  longitude: Number,
+  currentlatitude: Number,
+  currentlongitude: Number,
   uniqueId: String,
   pinAt: {
     type: Date,
