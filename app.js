@@ -32,7 +32,7 @@ app.post('/checkpinlocation', async (req, res) => {
     const { uniqueId } = req.body;
     try {
         // Assuming you have a PinLocation schema/model
-        const pinLocation = await PinLocation.findOne({ uniqueId }).sort({ createdAt: -1 });
+        const pinLocation = await Pinlocation.findOne({ uniqueId }).sort({ createdAt: -1 });
 
         if (!pinLocation) {
             console.log("No pin location found for uniqueId:", uniqueId);
