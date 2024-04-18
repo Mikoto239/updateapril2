@@ -14,9 +14,7 @@ const hardwareSchema = new mongoose.Schema({
     type: Date,
         default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
   },
-  pinlocation: { type: Boolean, default: false },
-  currentlatitude: { type: Number }, // Changed to Number type
-  currentlongitude: { type: Number } // Changed to Number type
+  pinlocation: { type: Boolean, default: false }
 });
 
 const Hardware = mongoose.model('Hardware', hardwareSchema);
