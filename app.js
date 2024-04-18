@@ -103,31 +103,23 @@ app.post('/data', (req, res) => {
 
 
 app.post('/deletecurrentlocation', async (req, res) => {
-  const { uniqueId } = req.body;
+  const { uniqueId, statusPin } = req.body;
 
   try {
-    // Find the hardware document with the given uniqueId
-    const hardware = await Hardware.findOne({ uniqueId });
+    const pinLocation = await Pinlocation.findOneAndUpdate(
+      { uniqueId },
+      { statusPin },
+      { new: true }
+    );
 
-    // If hardware document exists
-    if (hardware) {
-      // Update the hardware document to remove the latitude and longitude fields
-      hardware.currentlatitude = 0;
-      hardware.currentlongitude = 0;
-      
-      // Save the updated hardware document
-      await hardware.save();
-      
-      // Send response
-      res.status(200).json({ message: 'Latitude and longitude deleted successfully' });
-    } else {
-      // If hardware document with the given uniqueId is not found
-      res.status(404).json({ message: 'Hardware not found' });
+    if (!pinLocation) {
+      return res.status(404).json({ message: 'Pin location not found' });
     }
+
+    return res.status(200).json({ message: 'Updated pin location status' });
   } catch (error) {
-    // If an error occurs
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error('Error updating pin location:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
 
