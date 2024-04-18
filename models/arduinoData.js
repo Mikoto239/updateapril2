@@ -1,20 +1,16 @@
 const mongoose = require('mongoose');
-const moment = require('moment-timezone');
 
-// Set default timezone
-moment.tz.setDefault('Asia/Manila');
-
+// Define the schema
 const arduinoDataSchema = new mongoose.Schema({
-  vibrationDuration:String,
+  vibrationDuration: String,
   latitude: Number,
   longitude: Number,
-  uniqueId: String,
-  vibrateAt: {
-    type: Date,
- default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
-  }
+  uniqueId: String
+}, {
+  timestamps: true // Add createdAt and updatedAt timestamps
 });
 
+// Create the model
 const ArduinoData = mongoose.model('ArduinoData', arduinoDataSchema);
 
 module.exports = ArduinoData;
