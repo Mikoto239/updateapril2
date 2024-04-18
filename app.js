@@ -6,6 +6,7 @@ const Hardware = require('./models/hardware.js');
 const ArduinoData = require('./models/arduinoData.js');
 const User = require('./models/user.js');
 const TheftDetails = require('./models/theftdetails');
+const Pinlocation = require('./models/pinlocation');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
@@ -148,30 +149,39 @@ app.post('/currentlocation', async (req, res) => {
   }
 });
 
-
 app.post('/stopcurrentlocation', async (req, res) => {
   const { uniqueId, pinlocation, currentlatitude, currentlongitude } = req.body;
-  console.log('Request body:', req.body); // Debug: log the incoming request body
 
   try {
+    // Find the hardware device by unique ID and update its pin location
     const hardware = await Hardware.findOneAndUpdate(
       { uniqueId: uniqueId },
-      { pinlocation, currentlatitude, currentlongitude },
+      { pinlocation: pinlocation },
       { new: true }
     );
 
-    if (!hardware) {
-      console.log('Hardware not found for uniqueId:', uniqueId); // Debug: log if not found
+    if (hardware) {
+      if (pinlocation) {
+        // If pin location is true, save the current latitude and longitude
+        const pinlocationsave = new Pinlocation({ uniqueId, currentlatitude, currentlongitude });
+        await pinlocationsave.save();
+        return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
+      } else {
+        // If pin location is false, return a success message
+        return res.status(200).json({ message: "Pin location updated successfully" });
+      }
+    } else {
+      // If hardware is not found, return a 404 error
+      console.log('Hardware not found for uniqueId:', uniqueId);
       return res.status(404).json({ message: "Hardware not found" });
     }
-
-    console.log('Updated hardware:', hardware); // Debug: log the updated document
-    return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
   } catch (error) {
-    console.error('Error updating hardware:', error); // More informative error logging
+    // If there's an error, return a 500 error with an informative message
+    console.error('Error updating hardware:', error);
     return res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 });
+
 
 app.post('/checkuserregister', async (req, res) => {
     const { userName, email } = req.body; // Renamed 'name' to 'userName'
