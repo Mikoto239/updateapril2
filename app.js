@@ -101,24 +101,23 @@ app.post('/data', (req, res) => {
 });
 });
 
-
 app.post('/deletecurrentlocation', async (req, res) => {
-  const { uniqueId, statusPin } = req.body;
+  const { uniqueId ,statusPin} = req.body;
 
   try {
-    const pinLocation = await Pinlocation.findOneAndUpdate(
-      { uniqueId },
-      { statusPin },
-      { new: true }
-    );
+    // Find all pin locations with the specified uniqueId and statusPin as true
+    const pinLocations = await Pinlocation.find({ uniqueId, statusPin: true });
 
-    if (!pinLocation) {
-      return res.status(404).json({ message: 'Pin location not found' });
+    if (pinLocations.length === 0) {
+      return res.status(404).json({ message: 'No pin locations found with specified uniqueId and statusPin as true' });
     }
 
-    return res.status(200).json({ message: 'Updated pin location status' });
+    // Update statusPin to false for all found pin locations
+    await Pinlocation.updateMany({ uniqueId, statusPin: true }, { statusPin: false });
+
+    return res.status(200).json({ message: 'Updated pin locations status to false' });
   } catch (error) {
-    console.error('Error updating pin location:', error);
+    console.error('Error updating pin locations:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
