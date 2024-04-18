@@ -152,7 +152,7 @@ app.post('/currentlocation', async (req, res) => {
 });
 
 app.post('/stopcurrentlocation', async (req, res) => {
-  const { uniqueId, pinlocation, currentlatitude, currentlongitude } = req.body;
+  const { uniqueId, pinlocation, currentlatitude, currentlongitude,statusPin } = req.body;
 
   try {
     // Find the hardware device by unique ID and update its pin location
@@ -164,8 +164,8 @@ app.post('/stopcurrentlocation', async (req, res) => {
 
     if (hardware) {
    
-        // If pin location is true, save the current latitude and longitude
-        const pinlocationsave = new Pinlocation({ uniqueId, currentlatitude, currentlongitude });
+      
+        const pinlocationsave = new Pinlocation({ uniqueId, currentlatitude, currentlongitude,statusPin });
         await pinlocationsave.save();
         return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
      
