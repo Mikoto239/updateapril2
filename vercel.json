@@ -20,6 +20,7 @@
     {"src":"/deletecurrentlocation","dest" :"/app.js"},
     {"src":"/checkpinlocation", "dest" :"/app.js"},
     {"src":"/sendtheftdetails","dest":"/app.js"},
-    {"src":"/removetheftdetails","dest":"/app.js"}
+    {"src":"/removetheftdetails","dest":"/app.js"},
+    {"src":"/gettheftdetails", "dest" : "/app.js"}
   ]
 }
