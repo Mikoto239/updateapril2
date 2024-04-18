@@ -87,9 +87,13 @@ app.post('/data', (req, res) => {
       res.status(200).send('Data saved successfully!');
     })
     .catch(error => {
-      console.error('Error saving data to MongoDB:', error);
-      res.status(500).send('Failed to save data!');
-    });
+  if (error.name === 'ValidationError') {
+    console.error('Validation error:', error.message);
+  } else {
+    console.error('Unexpected error:', error);
+  }
+  res.status(500).send('Failed to save data!');
+});
 });
 
 
