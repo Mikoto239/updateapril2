@@ -29,23 +29,25 @@ app.use(bodyParser.json());
 
 
 app.post('/checkpinlocation', async (req, res) => {
-    const { uniqueId } = req.body;
-    try {
-        // Assuming you have a PinLocation schema/model
-        const pinLocation = await Pinlocation.findOne({ uniqueId }).sort({ createdAt: -1 });
+  const { uniqueId } = req.body;
+  try {
+      // Assuming you have a PinLocation schema/model
+      const pinLocation = await Pinlocation.findOne({ uniqueId,statusPin:true}).sort({ createdAt: -1 });
 
-        if (!pinLocation) {
-            console.log("No pin location found for uniqueId:", uniqueId);
-            return res.status(400).json({ message: "Invalid uniqueId" });
-        }
-
-        const latitude = pinLocation.currentlatitude;
-        const longitude = pinLocation.currentlongitude;
-        return res.status(200).json({ latitude: latitude, longitude: longitude });
-    } catch (error) {
-        console.error("Error fetching pin location:", error);
-        return res.status(500).json({ message: 'Internal server error' });
-    }
+      if (!pinLocation) {
+          console.log("No pin location found for uniqueId:", uniqueId);
+          return res.status(400).json({ message: "Invalid uniqueId" });
+      } 
+      
+      const latitude = pinLocation.currentlatitude;
+      const longitude = pinLocation.currentlongitude;
+      
+      // Include l in the response JSON object
+      return res.status(200).json({ latitude: latitude, longitude: longitude});
+  } catch (error) {
+      console.error("Error fetching pin location:", error);
+      return res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 
