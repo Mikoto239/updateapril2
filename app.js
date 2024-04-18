@@ -32,20 +32,21 @@ app.use(bodyParser.json());
 app.post('/checkpinlocation', async (req, res) => {
     const { uniqueId } = req.body;
     try {
-        const pinlocation = await Hardware.findOne({ uniqueId });
+        // Assuming you have a PinLocation schema/model
+        const pinLocation = await PinLocation.findOne({ uniqueId }).sort({ createdAt: -1 });
 
-        if (!pinlocation) {
+        if (!pinLocation) {
             return res.status(400).json({ message: "Invalid uniqueId" });
         }
-
-        const latitude = pinlocation.currentlatitude;
-        const longitude = pinlocation.currentlongitude;
+       const latitude = pinLocation.currentlatitude;
+        const longitude = pinLocation.currentlongitude;
         return res.status(200).json({ latitude: latitude, longitude: longitude });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 app.get('/getlocation', async (req, res) => {
   const { uniqueId } = req.query;
