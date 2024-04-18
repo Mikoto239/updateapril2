@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const timezone = require('moment-timezone');
+const moment = require('moment-timezone'); // Import the moment module
 
-timezone.tz.setDefault('Asia/Manila');
+moment.tz.setDefault('Asia/Manila');
 
 const arduinoDataSchema = new mongoose.Schema({
   vibrationDuration: Number,
@@ -18,4 +18,3 @@ const arduinoDataSchema = new mongoose.Schema({
 const ArduinoData = mongoose.model('ArduinoData', arduinoDataSchema);
 
 module.exports = ArduinoData;
-
