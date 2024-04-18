@@ -5,9 +5,11 @@ const arduinoDataSchema = new mongoose.Schema({
   vibrationDuration: String,
   latitude: Number,
   longitude: Number,
-  uniqueId: String
-}, {
-  timestamps: true // Add createdAt and updatedAt timestamps
+  uniqueId: String,
+  CreatedAt: {
+    type: Date,
+        default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
+  },
 });
 
 // Create the model
