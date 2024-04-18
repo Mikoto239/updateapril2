@@ -413,20 +413,37 @@ app.post('/changestatus', async (req, res) => {
 
 app.post('/gethistory', async (req, res) => {
   const { uniqueId } = req.body;
-
   try {
-    const results = await ArduinoData.find({ uniqueId });
+    // Retrieve data from all collections
+    const allPinLocation = await Pinlocation.find({ uniqueId });
+    const allVibrate = await ArduinoData.find({ uniqueId });
+    const allTheft = await TheftDetails.find({ uniqueId });
 
-    if (!results) {
-      return res.status(404).json({ message: 'No information found' });
+    // Merge data from all collections into one array
+    let allData = [];
+    allData = allData.concat(allPinLocation.map(data => ({ ...data.toObject(), collection: 'Pinlocation' })));
+    allData = allData.concat(allVibrate.map(data => ({ ...data.toObject(), collection: 'ArduinoData' })));
+    allData = allData.concat(allTheft.map(data => ({ ...data.toObject(), collection: 'TheftDetails' })));
+
+    // Sort the merged array based on timestamps
+    allData.sort((a, b) => {
+      const timestampA = a.pinAt || a.vibrateAt || a.happenedAt;
+      const timestampB = b.pinAt || b.vibrateAt || b.happenedAt;
+      return new Date(timestampA) - new Date(timestampB);
+    });
+
+    if (!allData.length) {
+      return res.status(400).json({ message: "No record found" });
     }
 
-    return res.status(200).json(results);
+    res.status(200).json({ data: allData });
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+
 
 
 
