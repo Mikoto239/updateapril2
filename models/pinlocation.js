@@ -7,6 +7,7 @@ const pinlocationSchema = new mongoose.Schema({
   currentlatitude: Number,
   currentlongitude: Number,
   uniqueId: String,
+  statusPin: { type: Boolean, default: true },
   pinAt: {
     type: Date,
     default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
