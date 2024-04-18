@@ -258,6 +258,25 @@ app.post('/removetheftdetails', async (req, res) => {
   }
 });
 
+app.post('/gettheftdetails',async(req,res)=>{
+  const {uniqueId} = req.body;
+  
+    try{
+       const theft = await TheftDetails.findOne({ uniqueId }).sort({ happenedAt:-1 });
+        if(!theft){
+      return res.status(400).json({message:"no theft report"});
+        }
+      const theftlatitude = theft.currentlatitude;
+      const theftlongitude = theft.currentlongitude;
+      const happened = theft.happenedAt;
+  
+      return res.status(200).json({latitude:theftlatitude,longitude:theftlongitude,time:happened});
+  
+    }catch(error){
+   return res.status(500).json({ message: 'Internal server error' });
+    }
+  
+  });
 app.post('/userregister', async (req, res) => {
     const { name, uniqueId, email, cellphonenumber } = req.body;
 
