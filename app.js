@@ -161,15 +161,12 @@ app.post('/stopcurrentlocation', async (req, res) => {
     );
 
     if (hardware) {
-      if (pinlocation) {
+   
         // If pin location is true, save the current latitude and longitude
         const pinlocationsave = new Pinlocation({ uniqueId, currentlatitude, currentlongitude });
         await pinlocationsave.save();
         return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
-      } else {
-        // If pin location is false, return a success message
-        return res.status(200).json({ message: "Pin location updated successfully" });
-      }
+     
     } else {
       // If hardware is not found, return a 404 error
       console.log('Hardware not found for uniqueId:', uniqueId);
