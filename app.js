@@ -28,7 +28,6 @@ app.use(bodyParser.json());
 
 
 
-
 app.post('/checkpinlocation', async (req, res) => {
     const { uniqueId } = req.body;
     try {
@@ -36,13 +35,15 @@ app.post('/checkpinlocation', async (req, res) => {
         const pinLocation = await PinLocation.findOne({ uniqueId }).sort({ createdAt: -1 });
 
         if (!pinLocation) {
+            console.log("No pin location found for uniqueId:", uniqueId);
             return res.status(400).json({ message: "Invalid uniqueId" });
         }
-       const latitude = pinLocation.currentlatitude;
+
+        const latitude = pinLocation.currentlatitude;
         const longitude = pinLocation.currentlongitude;
         return res.status(200).json({ latitude: latitude, longitude: longitude });
     } catch (error) {
-        console.error(error);
+        console.error("Error fetching pin location:", error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 });
