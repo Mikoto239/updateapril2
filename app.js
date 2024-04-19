@@ -411,6 +411,8 @@ app.post('/changestatus', async (req, res) => {
 
 
 
+
+
 app.post('/gethistory', async (req, res) => {
   const { uniqueId } = req.body;
   try {
@@ -425,11 +427,11 @@ app.post('/gethistory', async (req, res) => {
     allData = allData.concat(allVibrate.map(data => ({ ...data.toObject(), collection: 'ArduinoData' })));
     allData = allData.concat(allTheft.map(data => ({ ...data.toObject(), collection: 'TheftDetails' })));
 
-    // Sort the merged array based on timestamps
+    // Reverse the sort order based on timestamps
     allData.sort((a, b) => {
       const timestampA = a.pinAt || a.vibrateAt || a.happenedAt;
       const timestampB = b.pinAt || b.vibrateAt || b.happenedAt;
-      return new Date(timestampA) - new Date(timestampB);
+      return new Date(timestampB) - new Date(timestampA); // Reversed order here
     });
 
     if (!allData.length) {
@@ -441,6 +443,7 @@ app.post('/gethistory', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 
