@@ -146,32 +146,49 @@ app.post('/currentlocation', async (req, res) => {
 });
 
 app.post('/stopcurrentlocation', async (req, res) => {
-  const { uniqueId, pinlocation, currentlatitude, currentlongitude,statusPin } = req.body;
+  const { uniqueId, pinlocation, currentlatitude, currentlongitude, statusPin } = req.body;
 
   try {
     // Find the hardware device by unique ID and update its pin location
     const hardware = await Hardware.findOneAndUpdate(
-      { uniqueId: uniqueId },
-      { pinlocation: pinlocation },
+      { uniqueId },
+      { pinlocation },
       { new: true }
     );
 
-    if (hardware) {
-   
-      
-        const pinlocationsave = new Pinlocation({ uniqueId, currentlatitude, currentlongitude,statusPin });
-        await pinlocationsave.save();
-        return res.status(200).json({ latitude: currentlatitude, longitude: currentlongitude });
-     
-    } else {
-      // If hardware is not found, return a 404 error
+    if (!hardware) {
+      // If hardware is not found, log the error and return a 404 error
       console.log('Hardware not found for uniqueId:', uniqueId);
       return res.status(404).json({ message: "Hardware not found" });
     }
+
+    // Validate the current latitude and longitude
+    if (currentlatitude == 0 || currentlongitude == 0) {
+      // If location is invalid (assumes 0,0 is invalid), return an error
+      return res.status(400).json({ message: "Invalid location" }); // Using 400 for bad request
+    }
+
+    // Since hardware exists and location is valid, save the new pin location
+    const pinLocationSave = new Pinlocation({
+      uniqueId,
+      currentlatitude,
+      currentlongitude,
+      statusPin
+    });
+    await pinLocationSave.save();
+    return res.status(200).json({
+      message: "Location updated successfully",
+      latitude: currentlatitude,
+      longitude: currentlongitude
+    });
+
   } catch (error) {
-    // If there's an error, return a 500 error with an informative message
+    // If there's an error during processing, log and return a 500 error
     console.error('Error updating hardware:', error);
-    return res.status(500).json({ message: 'Internal server error', error: error.message });
+    return res.status(500).json({
+      message: 'Internal server error',
+      error: error.message
+    });
   }
 });
 
