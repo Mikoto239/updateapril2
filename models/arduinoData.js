@@ -5,6 +5,7 @@ moment.tz.setDefault('Asia/Manila');
 
 const arduinoDataSchema = new mongoose.Schema({
   vibrationDuration: String,
+  level:String,
   latitude: Number,
   longitude: Number,
   uniqueId: String,
