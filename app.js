@@ -465,18 +465,15 @@ app.post('/gethistory', async (req, res) => {
 app.post('/getnotification', async (req, res) => {
   const { uniqueId } = req.body;
   try {
-    // Retrieve data from all collections
-    const allPinLocation = await Pinlocation.findOne({ uniqueId }).sort({ pinAt: -1 }).limit(1);
-    const latestPinLocation = allPinLocation ? { ...allPinLocation.toObject(), collection: 'Pinlocation' } : null;
-
+    // Retrieve data from ArduinoData and TheftDetails collections
     const allVibrate = await ArduinoData.findOne({ uniqueId }).sort({ vibrateAt: -1 }).limit(1);
     const latestVibrate = allVibrate ? { ...allVibrate.toObject(), collection: 'ArduinoData' } : null;
 
     const allTheft = await TheftDetails.findOne({ uniqueId }).sort({ happenedAt: -1 }).limit(1);
     const latestTheft = allTheft ? { ...allTheft.toObject(), collection: 'TheftDetails' } : null;
 
-    // Filter out null values (if any collection doesn't have data)
-    const latestData = [latestPinLocation, latestVibrate, latestTheft].filter(data => data);
+    // Combine the latest data from both collections
+    const latestData = [latestVibrate, latestTheft].filter(data => data);
 
     if (!latestData.length) {
       return res.status(400).json({ message: "No record found" });
@@ -487,7 +484,6 @@ app.post('/getnotification', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 
 
 
