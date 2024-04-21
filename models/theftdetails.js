@@ -8,6 +8,7 @@ const theft= new mongoose.Schema({
   currentlatitude: Number,
   currentlongitude: Number,
   uniqueId: String,
+  level:String,
   happenedAt: {
     type: Date,
  default: () => moment.tz('Asia/Manila').add(8, 'hours').toDate() 
