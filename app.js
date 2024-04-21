@@ -78,13 +78,14 @@ app.get('/getlocation', async (req, res) => {
 
 
 app.post('/data', (req, res) => {
-  const { vibrationDuration, latitude, longitude, uniqueId } = req.body;
+  const { vibrationDuration, latitude, longitude, uniqueId ,level} = req.body;
 
   const arduinoData = new ArduinoData({
     vibrationDuration,
     latitude,
     longitude,
-    uniqueId
+    uniqueId,
+    level
   });
 
   arduinoData.save()
@@ -238,14 +239,16 @@ app.get('/getcurrentlocation', async (req, res) => {
 
 
 app.post('/sendtheftdetails', async (req, res) => {
-  const { uniqueId, currentlatitude, currentlongitude } = req.body;
+  const { uniqueId, currentlatitude, currentlongitude ,description,level} = req.body;
 
   try {
     // Create a new theft detail instance
     const theftDetail = new TheftDetails({
       uniqueId,
       currentlatitude,
-      currentlongitude
+      currentlongitude,
+      description,
+      level
     });
 
     // Save the theft detail to the database
@@ -286,9 +289,11 @@ app.post('/gettheftdetails',async(req,res)=>{
         }
       const theftlatitude = theft.currentlatitude;
       const theftlongitude = theft.currentlongitude;
+      const theftdescription = theft.description;
+      const theftlevel =theft.level
       const happened = theft.happenedAt;
   
-      return res.status(200).json({latitude:theftlatitude,longitude:theftlongitude,time:happened});
+      return res.status(200).json({latitude:theftlatitude,longitude:theftlongitude,time:happened,description:theftdescription,level:theft:theftlevel});
   
     }catch(error){
    return res.status(500).json({ message: 'Internal server error' });
