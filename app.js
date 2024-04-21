@@ -461,23 +461,36 @@ app.post('/gethistory', async (req, res) => {
   }
 });
 
-
 app.post('/getnotification', async (req, res) => {
   const { uniqueId } = req.body;
   try {
-    // Retrieve data from ArduinoData and TheftDetails collections
-    const allVibrate = await ArduinoData.findOne({ uniqueId }).sort({ vibrateAt: -1 }).limit(1);
-    const latestVibrate = allVibrate ? { ...allVibrate.toObject(), collection: 'ArduinoData' } : null;
+    // Retrieve the latest data from ArduinoData collection
+    const latestVibrate = await ArduinoData.findOne({ uniqueId }).sort({ vibrateAt: -1 }).limit(1);
 
-    const allTheft = await TheftDetails.findOne({ uniqueId }).sort({ happenedAt: -1 }).limit(1);
-    const latestTheft = allTheft ? { ...allTheft.toObject(), collection: 'TheftDetails' } : null;
+    // Retrieve the latest data from TheftDetails collection
+    const latestTheft = await TheftDetails.findOne({ uniqueId }).sort({ happenedAt: -1 }).limit(1);
 
-    // Combine the latest data from both collections
-    const latestData = [latestVibrate, latestTheft].filter(data => data);
+    // Determine which data is the latest based on timestamps
+    let latestData = null;
+    if (latestVibrate && latestTheft) {
+      // Compare timestamps to find the latest data
+      latestData = latestVibrate.vibrateAt > latestTheft.happenedAt ? { ...latestVibrate.toObject(), collection: 'ArduinoData' } : { ...latestTheft.toObject(), collection: 'TheftDetails' };
+    } else if (latestVibrate) {
+      latestData = { ...latestVibrate.toObject(), collection: 'ArduinoData' };
+    } else if (latestTheft) {
+      latestData = { ...latestTheft.toObject(), collection: 'TheftDetails' };
+    }
 
-    if (!latestData.length) {
+    if (!latestData) {
       return res.status(400).json({ message: "No record found" });
     }
+
+    res.status(200).json({ data: [latestData] });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
     res.status(200).json({ data: latestData });
   } catch (error) {
