@@ -293,7 +293,7 @@ app.post('/gettheftdetails',async(req,res)=>{
       const theftlevel =theft.level
       const happened = theft.happenedAt;
   
-      return res.status(200).json({latitude:theftlatitude,longitude:theftlongitude,time:happened,description:theftdescription,level:theft:theftlevel});
+      return res.status(200).json({latitude:theftlatitude,longitude:theftlongitude,time:happened,description:theftdescription,level:theftlevel});
   
     }catch(error){
    return res.status(500).json({ message: 'Internal server error' });
