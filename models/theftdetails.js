@@ -7,6 +7,7 @@ moment.tz.setDefault('Asia/Manila');
 const theft= new mongoose.Schema({
   currentlatitude: Number,
   currentlongitude: Number,
+  description:String,
   uniqueId: String,
   level:String,
   happenedAt: {
