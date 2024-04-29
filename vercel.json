@@ -22,6 +22,7 @@
     {"src":"/sendtheftdetails","dest":"/app.js"},
     {"src":"/removetheftdetails","dest":"/app.js"},
     {"src":"/gettheftdetails", "dest" : "/app.js"},
-    {"src":"/getnotification","dest":"/app.js"}
+    {"src":"/getnotification","dest":"/app.js"},
+    {"src":"/getpinhistory","dest":"/app.js"}
   ]
 }
