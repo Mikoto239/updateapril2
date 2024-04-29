@@ -498,9 +498,22 @@ app.post('/getnotification', async (req, res) => {
 
 
 
+app.post('/getpinhistory', async (req, res) => {
+  const { uniqueId } = req.body; // Destructure uniqueId from req.body
 
+  try {
+    const pinhistory = await Pinlocation.find({ uniqueId });
 
+    if (!pinhistory || pinhistory.length === 0) { // Check if pinhistory is empty
+      return res.status(400).json({ message: 'No pin history recorded' });
+    }
 
+    return res.status(200).json({ pinhistory });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 
